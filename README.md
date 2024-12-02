@@ -9,7 +9,7 @@
  python3  preflow_push_maximum_flow.py GraphGenerator/FixedDegree/100v-5out-25min-200max.txt
 ```
 
-## TestCase
+## GraphGenerator & TestCase
 ### Generate TestCase
 - The graph generators is in GraphGenerator directory, and there are four graphs, `Bipartite`, `FixedDegree`, `Mesh` and `Random`.
 - The result is store in the related graph directory.
@@ -44,3 +44,6 @@ v6 v1 8
 v6 v2 9
 v2 t 7
 ```
+
+## TestcaseInClass
+The testcases on the canvas.
