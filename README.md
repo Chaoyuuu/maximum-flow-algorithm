@@ -6,12 +6,29 @@
  python3 preflow_push_maximum_flow.py ${input-graph-filepath}
  
  # example
- python3  preflow_push_maximum_flow.py FixedDegree/100v-5out-25min-200max.txt
+ python3  preflow_push_maximum_flow.py GraphGenerator/FixedDegree/100v-5out-25min-200max.txt
 ```
 
 ## TestCase
-- The testcases generator are written in Java 8.
+### Generate TestCase
+- The graph generators is in GraphGenerator directory, and there are four graphs, `Bipartite`, `FixedDegree`, `Mesh` and `Random`.
+- The result is store in the related graph directory.
+- How to execute:
+```
+cd GraphGenerator 
+java ${graphGenerator} # BipartiteGraph, FixedDegreeGraph, MeshGenerator, RandomGraph
+
+# example
+cd GraphGenerator 
+java BipartiteGraph
+```
+- Execution example:
+- The result is in `/GraphGenerator/Bipatite`
+![img.png](img.png)
+
+### Testcase Format
 - Format: (node1, node2, capacity)
+- Example:
 ```
 s v1 10
 s v2 5
