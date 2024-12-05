@@ -67,12 +67,8 @@ def ford_fulkerson(graph, source, sink):
 #main program: dynamically reads the file name and calculates the maximum flow
 if __name__ == "__main__":
     filename = input("Please enter the file name (e.g., g1.txt): ").strip() #user input filename
-
-    start_time = time.time() #start timing
-
+    
     graph, source, sink = readFile(filename) #read graph and run Ford-Fulkerson algorithm
-
-    end_time = time.time() #end timing
 
     #basic information about a statistical graph
     num_nodes = len(graph)
@@ -81,8 +77,12 @@ if __name__ == "__main__":
         capacity for edges in graph.values() for capacity in edges.values()
     )
 
+    start_time = time.time() #start timing
+    
     #call ford_fulkerson algorithm
     max_flow = ford_fulkerson(graph, source, sink)
+    
+    end_time = time.time() #end timing
 
     #output
     print(f"m={num_nodes}")
