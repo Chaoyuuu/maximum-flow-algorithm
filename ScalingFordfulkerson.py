@@ -53,21 +53,10 @@ def bfs(residual_capacity, source, sink, parent, delta):
                 if v == sink:
                     return True
     return False
-
-def main():
-    print("Algorithm: Scaling Ford-Fulkerson")
-    input_file = input("Enter the input file name: ")
-
-    print("Select mode:")
-    print("1 - Mesh")
-    print("2 - FixedDegree")
-    print("3 - Bipartite")
-    print("4 - Random")
-    mode = int(input("Enter mode (1-4): "))
-    if mode < 1 or mode > 4:
-        print("Invalid mode selected. Please enter a number between 1 and 4.")
-        return
-
+def read_graph(input_file):
+    """
+    Reads the graph from the input file and returns the nodes, edges, and node-to-index mapping.
+    """
     node_to_index = {}
     nodes = []
     edges = []
@@ -96,18 +85,78 @@ def main():
             max_capacity = max(max_capacity, capacity)
             min_capacity = min(min_capacity, capacity)
 
+    return nodes, edges, node_to_index
+
+
+def build_capacity_matrix(nodes, edges):
+    """
+    Constructs and returns the capacity matrix and out-degree of the nodes.
+    """
     n = len(nodes)
     capacity = [[0] * n for _ in range(n)]
     out_degree = [0] * n
+
     for u, v, cap in edges:
         capacity[u][v] = cap
         out_degree[u] += 1
 
+    return capacity, out_degree
+
+
+def get_source_and_sink(node_to_index):
+    """
+    Identifies and returns the source ('s') and sink ('t') node indices.
+    """
     if 's' not in node_to_index or 't' not in node_to_index:
         raise ValueError("Graph must contain source ('s') and sink ('t') nodes.")
+    source = node_to_index['s']
+    sink = node_to_index['t']
+    return source, sink
 
-    source, sink = node_to_index['s'], node_to_index['t']
+
+def max_flow_func(input_file):
+    """
+    Reads the graph, constructs the capacity matrix, identifies source and sink,
+    and computes the maximum flow.
+    """
+    nodes, edges, node_to_index = read_graph(input_file)
+    capacity, _ = build_capacity_matrix(nodes, edges)
+    source, sink = get_source_and_sink(node_to_index)
     max_flow = scaling_ford_fulkerson(capacity, source, sink)
+    return max_flow
+
+
+def main():
+    print("Algorithm: Scaling Ford-Fulkerson")
+    input_file = input("Enter the input file name: ")
+
+    print("Select mode:")
+    print("1 - Mesh")
+    print("2 - FixedDegree")
+    print("3 - Bipartite")
+    print("4 - Random")
+    mode = int(input("Enter mode (1-4): "))
+    if mode < 1 or mode > 4:
+        print("Invalid mode selected. Please enter a number between 1 and 4.")
+        return
+
+    # Step 1: Read the graph
+    nodes, edges, node_to_index = read_graph(input_file)
+    n = len(nodes)
+
+    # Step 2: Build capacity matrix
+    capacity, out_degree = build_capacity_matrix(nodes, edges)
+
+    # Step 3: Identify source and sink
+    source, sink = get_source_and_sink(node_to_index)
+
+    # Step 4: Calculate max flow
+    max_flow = scaling_ford_fulkerson(capacity, source, sink)
+
+    # Prepare auxiliary data for modes
+    min_capacity = min(edge[2] for edge in edges)
+    max_capacity = max(edge[2] for edge in edges)
+    avg_out_degree = sum(out_degree) // n
 
     if mode == 1:  # Basic max-flow calculation
         print("Max flow:", max_flow)
@@ -132,6 +181,7 @@ def main():
         print("Max flow:", max_flow)
     else:
         print("Invalid mode selected.")
+
 
 if __name__ == "__main__":
     main()
