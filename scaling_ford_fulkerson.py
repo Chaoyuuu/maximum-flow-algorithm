@@ -1,5 +1,6 @@
 import sys
 from collections import deque, defaultdict
+import time
 
 INF = float('inf')
 
@@ -140,6 +141,8 @@ def main():
         print("Invalid mode selected. Please enter a number between 1 and 4.")
         return
 
+    start_time = time.time() #start timing
+    
     # Step 1: Read the graph
     nodes, edges, node_to_index = read_graph(input_file)
     n = len(nodes)
@@ -150,8 +153,12 @@ def main():
     # Step 3: Identify source and sink
     source, sink = get_source_and_sink(node_to_index)
 
+
     # Step 4: Calculate max flow
     max_flow = scaling_ford_fulkerson(capacity, source, sink)
+    end_time = time.time() #end timing
+    
+    print(f"\nTime taken: {end_time - start_time:.4f} seconds") #output run time
 
     # Prepare auxiliary data for modes
     min_capacity = min(edge[2] for edge in edges)

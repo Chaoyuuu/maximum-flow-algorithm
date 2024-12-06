@@ -1,3 +1,4 @@
+import os
 import time
 import tracemalloc
 from preflow_push_maximum_flow import read_graph_from_file
@@ -5,6 +6,14 @@ from ford_fulkerson import ford_fulkerson, read_file
 from scaling_ford_fulkerson import max_flow_func
 
 DIR_BASE_PATH = 'GraphGenerator/'
+
+def get_all_file_names(folder_path):
+    all_files = os.listdir(folder_path)
+
+    # Filter to include only files (exclude directories)
+    file_names = [f for f in os.listdir(folder_path)  # List all files and folders
+                  if os.path.isfile(os.path.join(folder_path, f)) and f.endswith('.txt')]
+    return file_names
 
 def measure_memory_and_time(algorithm, file_path):
     tracemalloc.start()
@@ -48,10 +57,10 @@ def preflow_push_alg(file_path):
 # Function to compare three different algorithms
 def compare_algorithms():
     
-    bipartite_graph = ['3x4_minC10_maxC_20_prob1.txt', '10x20_minC1_maxC50_prob1.txt']
-    fixed_degree_graph = ['10v-3out-4minC-100maxC.txt', '150v-10out-1minC-20maxC.txt']
-    mesh_graph = ['3row-5col-1cap-const.txt', '10row-20col-50cap-nonConst.txt']
-    random_graph = ['10v-10d-5minC-10maxC.txt', '100v-100d-1minC-50maxC.txt']
+    bipartite_graph = get_all_file_names("./GraphGenerator/Bipartite")
+    fixed_degree_graph = get_all_file_names("./GraphGenerator/FixedDegree")
+    mesh_graph = get_all_file_names("./GraphGenerator/Mesh")
+    random_graph = get_all_file_names("./GraphGenerator/Random")
     
     graph_types = [
         ("Bipartite", bipartite_graph),

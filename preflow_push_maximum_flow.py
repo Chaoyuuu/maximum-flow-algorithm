@@ -154,11 +154,13 @@ def read_graph_from_file(filename):
 
 if __name__ == "__main__":
     filename = sys.argv[1]  # e.g. 'GraphGenerator/FixedDegree/100v-5out-25min-200max.txt'
+    
+    start_time = time.time()
     graph = read_graph_from_file(filename)
 
     source = 0
     sink = 1
-    start_time = time.time()
+    
     max_flow = graph.preflow_push(source, sink)
     end_time = time.time()
     print(f"The maximum possible flow is {max_flow}.")
