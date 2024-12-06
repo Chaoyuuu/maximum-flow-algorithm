@@ -1,9 +1,22 @@
 import time
+import tracemalloc
 from preflow_push_maximum_flow import read_graph_from_file
 from ford_fulkerson import ford_fulkerson, read_file
 from scaling_ford_fulkerson import max_flow_func
 
 DIR_BASE_PATH = 'GraphGenerator/'
+
+def measure_memory_and_time(algorithm, file_path):
+    tracemalloc.start()
+    start_time = time.time()
+    
+    max_flow = algorithm(file_path)
+    
+    end_time = time.time()
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    
+    return max_flow, end_time - start_time, peak
 
 def ford_fulkerson_alg(file_path):
     #read graph
@@ -64,12 +77,11 @@ def compare_algorithms():
             for algo_name, algorithm in algorithms:
                 file_path = DIR_BASE_PATH + graph_type + '/' + filename
                 
-                start_time = time.time()
-                max_flow = algorithm(file_path)
-                end_time = time.time()
-                
+                max_flow, elapsed_time, peak_mem = measure_memory_and_time(algorithm, file_path)
+            
                 print(f"  •{algo_name} - Max Flow: {max_flow}")
-                print(f"    ◦ Time: {end_time - start_time:.4f} seconds")
+                print(f"    ◦ Time: {elapsed_time:.4f} seconds")
+                print(f"    ◦ Peak Memory: {peak_mem / 1024:.2f} KB")
             print('- - - - - - - - - - - - - - - - - - - - - - -')
 
 
