@@ -2,7 +2,7 @@ from collections import defaultdict, deque
 import time
 
 #parse the input file and generates an adjacency list
-def readFile(filename):
+def read_file(filename):
     graph = defaultdict(lambda: defaultdict(int)) #the adjacency list stores the graph, default capacity is 0
     source, sink = "s", "t"  #point s and t
     while True:  #loop until input right filename
@@ -66,9 +66,9 @@ def ford_fulkerson(graph, source, sink):
 
 #main program: dynamically reads the file name and calculates the maximum flow
 if __name__ == "__main__":
-    filename = input("Please enter the file name (e.g., g1.txt): ").strip() #user input filename
+    # filename = input("Please enter the file name (e.g., g1.txt): ").strip() #user input filename
     
-    graph, source, sink = readFile(filename) #read graph and run Ford-Fulkerson algorithm
+    graph, source, sink = read_file(filename) #read graph and run Ford-Fulkerson algorithm
 
     #basic information about a statistical graph
     num_nodes = len(graph)

@@ -46,7 +46,7 @@ class Graph:
         """
 
         # Initialize structures for the algorithm
-        vertex_count = len(self.vertices)
+        vertex_count = max(self.vertices) + 1
         excess = [0] * vertex_count  # Excess flow for each vertex
         height = [0] * vertex_count  # Height of each vertex
         flow = defaultdict(lambda: defaultdict(int))  # Tracks flow along each edge
@@ -153,7 +153,7 @@ def read_graph_from_file(filename):
 
 
 if __name__ == "__main__":
-    filename = sys.argv[1]  # e.g. 'FixedDegree/100v-5out-25min-200max.txt'
+    filename = sys.argv[1]  # e.g. 'GraphGenerator/FixedDegree/100v-5out-25min-200max.txt'
     graph = read_graph_from_file(filename)
 
     source = 0
